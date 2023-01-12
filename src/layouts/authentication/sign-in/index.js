@@ -17,6 +17,9 @@ import { useState } from "react";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
+import axios from 'axios'
+
+import { Routes, Route, Navigate, useLocation ,useNavigate} from "react-router-dom"
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -42,9 +45,33 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
 function Basic() {
-  const [rememberMe, setRememberMe] = useState(false);
+  // const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  // const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const navigate = useNavigate()
+  const [signInData,setSignInData] = useState({
+    username : '',
+    password : ''
+  });
+
+  const handleChange = (target) => {
+
+    setSignInData({ ...signInData, [target.name]: target.value })
+    console.log(signInData)
+  }
+  const handleSubmit = () =>{
+      // axios({
+      //   method: 'post',
+      //   url: 'http://localhost:5000/signin',
+      //   data: signInData, // you are sending body instead
+      //   headers: {
+      //   'Content-Type': 'application/json'
+      //   }, 
+      // })
+    if(signInData.username == "admin123" && signInData.password == "654321"){
+        navigate("/dashboard")
+    }
+  }
 
   return (
     <BasicLayout image={bgImage}>
@@ -61,7 +88,7 @@ function Basic() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Sign in
+            Admin Login
           </MDTypography>
           {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
             <Grid item xs={2}>
@@ -84,42 +111,15 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput type="username" label="Username" name="username" variant="standard" fullWidth onChange={(e) => handleChange(e.target)} />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
-            </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                onClick={handleSetRememberMe}
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;Remember me
-              </MDTypography>
-            </MDBox>
+              <MDInput type="password" label="Password" name="password" variant="standard" fullWidth onChange={(e) => handleChange(e.target)} />
+            </MDBox>  
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton variant="gradient" color="info" fullWidth onClick={handleSubmit}>
                 sign in
               </MDButton>
-            </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Don&apos;t have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/authentication/sign-up"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign up
-                </MDTypography>
-              </MDTypography>
             </MDBox>
           </MDBox>
         </MDBox>

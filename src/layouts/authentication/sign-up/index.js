@@ -62,8 +62,6 @@ function Cover() {
     if(signInData.username == "admin123" && signInData.password == "654321"){
         navigate("/dashboard")
     }
-
-
   }
 
   return (

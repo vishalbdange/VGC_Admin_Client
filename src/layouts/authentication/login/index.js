@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios'
 
-import { Routes, Route, Navigate, useLocation ,useNavigate} from "react-router-dom"
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom"
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -34,9 +34,9 @@ function Basic() {
 
   // const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const navigate = useNavigate()
-  const [signInData,setSignInData] = useState({
-    username : '',
-    password : ''
+  const [signInData, setSignInData] = useState({
+    username: '',
+    password: ''
   });
 
   const handleChange = (target) => {
@@ -44,17 +44,17 @@ function Basic() {
     setSignInData({ ...signInData, [target.name]: target.value })
     console.log(signInData)
   }
-  const handleSubmit = () =>{
-      // axios({
-      //   method: 'post',
-      //   url: 'http://localhost:5000/signin',
-      //   data: signInData, // you are sending body instead
-      //   headers: {
-      //   'Content-Type': 'application/json'
-      //   }, 
-      // })
-    if(signInData.username == "admin123" && signInData.password == "654321"){
-        navigate("/dashboard")
+  const handleSubmit = () => {
+    // axios({
+    //   method: 'post',
+    //   url: 'http://localhost:5000/signin',
+    //   data: signInData, // you are sending body instead
+    //   headers: {
+    //   'Content-Type': 'application/json'
+    //   }, 
+    // })
+    if (signInData.username == "admin123" && signInData.password == "654321") {
+      navigate("/dashboard")
     }
   }
 
@@ -100,7 +100,7 @@ function Basic() {
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="password" label="Password" name="password" variant="standard" fullWidth onChange={(e) => handleChange(e.target)} />
-            </MDBox>  
+            </MDBox>
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth onClick={handleSubmit}>
                 sign in

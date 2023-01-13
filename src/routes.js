@@ -1,5 +1,6 @@
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
+import AddNewEvent from "layouts/addNewEvent";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
@@ -17,6 +18,15 @@ const routes = [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
+    toShow: true,
+  },
+  {
+    type: "collapse",
+    name: "Add New Event",
+    key: "add-new-event",
+    icon: <Icon fontSize="small">event</Icon>,
+    route: "/add-new-event",
+    component: <AddNewEvent />,
     toShow: true,
   },
   {

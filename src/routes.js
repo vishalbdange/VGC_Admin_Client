@@ -9,6 +9,8 @@ import SignIn from "layouts/authentication/login";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import GetStudentApplications from "layouts/getStudentApplications";
+import SetNewAdvertiseMent from "layouts/setAdvertisements";
 
 const routes = [
   {
@@ -31,13 +33,31 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tables",
-    key: "tables",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tables",
-    component: <Tables />,
+    name: "Student Applications",
+    key: "student-applications",
+    icon: <Icon fontSize="small">event</Icon>,
+    route: "/student-applications",
+    component: <GetStudentApplications />,
     toShow: true,
   },
+  {
+    type: "collapse",
+    name: "Add Advertisement",
+    key: "add-advertisement",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/add-advertisement",
+    component: <SetNewAdvertiseMent />,
+    toShow: true,
+  },
+  // {
+  //   type: "collapse",
+  //   name: "Tables",
+  //   key: "tables",
+  //   icon: <Icon fontSize="small">table_view</Icon>,
+  //   route: "/tables",
+  //   component: <Tables />,
+  //   toShow: true,
+  // },
   {
     type: "collapse",
     name: "Billing",
@@ -47,24 +67,24 @@ const routes = [
     component: <Billing />,
     toShow: true,
   },
-  {
-    type: "collapse",
-    name: "Notifications",
-    key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    component: <Notifications />,
-    toShow: true,
-  },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-    toShow: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Notifications",
+  //   key: "notifications",
+  //   icon: <Icon fontSize="small">notifications</Icon>,
+  //   route: "/notifications",
+  //   component: <Notifications />,
+  //   toShow: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Profile",
+  //   key: "profile",
+  //   icon: <Icon fontSize="small">person</Icon>,
+  //   route: "/profile",
+  //   component: <Profile />,
+  //   toShow: true,
+  // },
   {
     type: "collapse",
     name: "Logout",

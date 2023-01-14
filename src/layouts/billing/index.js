@@ -1,5 +1,3 @@
-
-
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -18,8 +16,26 @@ import PaymentMethod from "layouts/billing/components/PaymentMethod";
 import Invoices from "layouts/billing/components/Invoices";
 import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { GetPayeeBalances } from "api/api";
 
 function Billing() {
+
+  const [canteenBalance, setCanteenBalance] = useState(1000);
+  const [stationeryBalance, setStationeryBalance] = useState(1000);
+
+  useEffect(async () => {
+    const result = await GetPayeeBalances();
+    if (result.status === 200) {
+      setCanteenBalance(result.data.canteen);
+      setStationeryBalance(result.data.stationery);
+    } else {
+      toast.warning("Oops! Something went wrong.");
+    }
+  }, []);
+
+
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
@@ -36,15 +52,15 @@ function Billing() {
                     icon="account_balance"
                     title="salary"
                     description="Belong Interactive"
-                    value="+$2000"
+                    value={"₹" + canteenBalance}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} xl={3}>
                   <DefaultInfoCard
-                    icon="paypal"
-                    title="paypal"
-                    description="Freelance Payment"
-                    value="$455.00"
+                    icon="stationery"
+                    title="Stationery"
+                    description="Mechanical Building"
+                    value={"₹" + stationeryBalance}
                   />
                 </Grid>
                 <Grid item xs={12}>

@@ -1,4 +1,4 @@
-
+import { useEffect, useState } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -21,9 +21,30 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import EventsCardGrid from "./components/EventCardsGrid";
+import { GetCoinSupplyRedeemedAmount } from "api/api";
+import { toast } from "react-toastify";
+
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+
+  const [totalSupply, setTotalSupply] = useState(0);
+  const [totalRedeem, setTotalRedeem] = useState(0);
+
+
+  useEffect(async () => {
+    const result = await GetCoinSupplyRedeemedAmount();
+
+    if (result.status === 200) {
+      console.log("Success");
+      setTotalSupply(result.data.supply.value);
+      setTotalRedeem(result.data.redeemed.value);
+    } else {
+      console.log("Error");
+      toast.warning("Oops! Something went wrong.");
+    }
+  }, []);
 
   return (
     <DashboardLayout>
@@ -33,10 +54,10 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Total Coins Distributed"
-                count={344}
+                color="warning"
+                icon="token"
+                title=<strong>Total Coins Distributed</strong>
+                count={totalSupply}
                 percentage={{
                   color: "success",
                   amount: "+55%",
@@ -49,27 +70,12 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 icon="leaderboard"
-                title="No. of Recipients"
-                count="30"
+                title=<strong>Total Redeemed Coins</strong>
+                count={totalRedeem}
                 percentage={{
-                  color: "success",
-                  amount: "+20%",
-                  label: "than last month",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
+                  color: "warning",
+                  amount: "-20%",
+                  label: "of total issued coins",
                 }}
               />
             </MDBox>
@@ -78,9 +84,9 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
+                icon="token"
+                title=<strong>Total Coins in Circulation</strong>
+                count={totalSupply - totalRedeem}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -89,31 +95,49 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <ComplexStatisticsCard
+                color="success"
+                icon="person_add"
+                title=<strong>Revenue</strong>
+                count="34k"
+                percentage={{
+                  color: "success",
+                  amount: "+15%",
+                  label: "than last month",
+                }}
+              />
+            </MDBox>
+          </Grid>
+
         </Grid>
+
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsBarChart
                   color="info"
-                  title="website views"
+                  title="Weekly Coins Issued"
                   description="Last Campaign Performance"
                   date="campaign sent 2 days ago"
                   chart={reportsBarChartData}
                 />
               </MDBox>
             </Grid>
+
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsLineChart
-                  color="success"
-                  title="daily sales"
+                  color="primary"
+                  title="Monthly Redeemed Coins"
                   description={
                     <>
-                      (<strong>+15%</strong>) increase in today sales.
+                      Monthwise redeeming statistics
                     </>
                   }
-                  date="updated 4 min ago"
+                  date="updated yesterday"
                   chart={sales}
                 />
               </MDBox>
@@ -121,9 +145,9 @@ function Dashboard() {
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
+                  color="success"
+                  title="Incoming Investments"
+                  description="Per month statistics"
                   date="just updated"
                   chart={tasks}
                 />
@@ -131,7 +155,10 @@ function Dashboard() {
             </Grid>
           </Grid>
         </MDBox>
-        <MDBox>
+
+        <EventsCardGrid />
+
+        {/* <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
               <Projects />
@@ -140,7 +167,8 @@ function Dashboard() {
               <OrdersOverview />
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
+
       </MDBox>
       <Footer />
     </DashboardLayout>

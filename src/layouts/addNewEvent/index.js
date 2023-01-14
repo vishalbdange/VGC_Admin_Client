@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+// import fs from 'fs'
 // Material Dashboard 2 React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -13,19 +13,21 @@ import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
-import { FormControl } from "@mui/material";
 import { toast } from "react-toastify";
+import { AddNewEventDataToDatabase } from "api/api";
+import { useNavigate } from "react-router-dom";
 
 function AddNewEvent() {
+    const navigate = useNavigate();
     const [eventData, setEventData] = useState({
         eventName: '',
         eventDescription: '',
-        venue: '',
-        date: '',
-        startTime: '',
-        endTime: '',
-        committee: '',
-        contact: '',
+        eventVenue: '',
+        eventDate: '',
+        eventStartTime: '',
+        eventEndTime: '',
+        eventCommittee: '',
+        eventContact: '',
         file: ''
     });
 
@@ -47,29 +49,19 @@ function AddNewEvent() {
         setEventData({ ...eventData, [target.name]: target.name == "file" ? target.files[0] : target.value.toString() })
     }
 
-    const handleSubmit = (e) => {
-        // axios({
-        //   method: 'post',
-        //   url: 'http://localhost:5000/signin',
-        //   data: signInData, // you are sending body instead
-        //   headers: {
-        //   'Content-Type': 'application/json'
-        //   }, 
-        // })
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // if (eventData.file !== null) {
-        //     console.log(eventData.file)
-        //     if (eventData.file.size > 3145728) {
-        //         // console.log(target.files[0].size)
-        //         toast.info("File size should be less than 3 MB");
-        //         return
-        //     } else if (eventData.file.type != "image/jpeg" && eventData.file.type != "image/png") {
-        //         // console.log(target.files[0].type)
-        //         toast.info("File type should be either jpeg or png");
-        //         return
-        //     }
-        // }
+
         console.info("Event data submitted", eventData);
+
+        const result = await AddNewEventDataToDatabase(eventData);
+
+        if (result.status == 200) {
+            toast.info("Event data submitted successfully");
+            navigate("/dashboard", { replace: true });
+        } else {
+            toast.warning("Something went wrong");
+        }
     }
 
     return (
@@ -80,7 +72,6 @@ function AddNewEvent() {
                     <Grid item xs={12} lg={8}>
                         <Card>
                             <form onSubmit={handleSubmit} >
-
                                 <MDBox p={2}>
                                     <MDTypography variant="h5">Add New Event Details</MDTypography>
                                 </MDBox>
@@ -91,26 +82,26 @@ function AddNewEvent() {
                                     <MDInput required fullWidth name="eventDescription" label="Event Description" value={eventData.eventDescription} type="text" multiline rows={5} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="committee" label="Committee" type="text" value={eventData.committee} onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="eventCommittee" label="Committee" type="text" value={eventData.eventCommittee} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="venue" label="Venue" type="text" value={eventData.venue} onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="eventVenue" label="Venue" type="text" value={eventData.eventVenue} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="date" label="Date" value={eventData.date} type="date" data-date-format="DD MMM YYYY" onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="eventDate" label="Date" value={eventData.eventDate} type="date" data-date-format="DD MMM YYYY" onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="startTime" label="Start Time" value={eventData.startTime} type="time" onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="eventStartTime" label="Start Time" value={eventData.eventStartTime} type="time" onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="endTime" label="End Time" value={eventData.endTime} type="time" onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="eventEndTime" label="End Time" value={eventData.eventEndTime} type="time" onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
 
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="contact" label="Contact Number" type="number" value={eventData.contact} onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="eventContact" label="Contact Number" type="number" value={eventData.eventContact} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required type="file" accept="images/*" fullWidth name="file" label="Poster Image" onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth type="file" name="file" label="Poster Image" onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
 
                                 <MDBox p={5} display="flex" justifyContent="center" alignItems="center">

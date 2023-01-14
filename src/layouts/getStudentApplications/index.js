@@ -76,14 +76,14 @@ function GetStudentApplications() {
         }
     }
 
-    const handleRejectSubmit = async (e) => {
+    const handleRejectSubmit = async (_id) => {
         const result = await RejectApplicationByStudentId({
-            id: id,
+            id: _id,
             studentApplicationStatus: "Rejected",
             studentApplicationIssuedCoins: 0
         });
         if (result.status === 200) {
-            toast.info("Coins updated successfully");
+            toast.info("Application rejected successfully");
             setOpen(false);
         }
         else {
@@ -280,7 +280,7 @@ function GetStudentApplications() {
                                                     </MDBox>
 
                                                     <MDBox p={2}>
-                                                        <MDButton fullWidth color="warning" onClick={handleRejectSubmit} >
+                                                        <MDButton fullWidth color="warning" onClick={() => handleRejectSubmit(application._id)} >
                                                             Reject
                                                         </MDButton>
                                                     </MDBox>

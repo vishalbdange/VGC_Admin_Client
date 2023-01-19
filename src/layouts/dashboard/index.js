@@ -51,10 +51,10 @@ function Dashboard() {
       <DashboardNavbar />
       <MDBox py={3}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={4}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="warning"
+                color="info"
                 icon="token"
                 title=<strong>Total Coins Distributed</strong>
                 count={totalSupply}
@@ -66,9 +66,10 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={4}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
+                color="primary"
                 icon="leaderboard"
                 title=<strong>Total Redeemed Coins</strong>
                 count={totalRedeem}
@@ -80,10 +81,10 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={4}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="primary"
+                color="success"
                 icon="token"
                 title=<strong>Total Coins in Circulation</strong>
                 count={totalSupply - totalRedeem}
@@ -95,7 +96,7 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          {/* <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="success"
@@ -109,7 +110,7 @@ function Dashboard() {
                 }}
               />
             </MDBox>
-          </Grid>
+          </Grid> */}
 
         </Grid>
 

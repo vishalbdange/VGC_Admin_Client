@@ -43,19 +43,19 @@ function Bill({ name, company, email, vat, noGutter }) {
           </MDTypography>
 
           <MDBox display="flex" alignItems="center" mt={{ xs: 2, sm: 0 }} ml={{ xs: -1.5, sm: 0 }}>
-            <MDBox mr={1}>
+            {/* <MDBox mr={1}>
               <MDButton variant="text" color="error">
                 <Icon>delete</Icon>&nbsp;delete
               </MDButton>
             </MDBox>
             <MDButton variant="text" color={darkMode ? "white" : "dark"}>
               <Icon>edit</Icon>&nbsp;edit
-            </MDButton>
+            </MDButton> */}
           </MDBox>
         </MDBox>
         <MDBox mb={1} lineHeight={0}>
           <MDTypography variant="caption" color="text">
-            Company Name:&nbsp;&nbsp;&nbsp;
+            Bank Name:&nbsp;&nbsp;&nbsp;
             <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
               {company}
             </MDTypography>
@@ -63,14 +63,14 @@ function Bill({ name, company, email, vat, noGutter }) {
         </MDBox>
         <MDBox mb={1} lineHeight={0}>
           <MDTypography variant="caption" color="text">
-            Email Address:&nbsp;&nbsp;&nbsp;
+            IFSC:&nbsp;&nbsp;&nbsp;
             <MDTypography variant="caption" fontWeight="medium">
               {email}
             </MDTypography>
           </MDTypography>
         </MDBox>
         <MDTypography variant="caption" color="text">
-          VAT Number:&nbsp;&nbsp;&nbsp;
+          Account Number:&nbsp;&nbsp;&nbsp;
           <MDTypography variant="caption" fontWeight="medium">
             {vat}
           </MDTypography>

@@ -1,5 +1,3 @@
-
-
 // @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -17,10 +15,40 @@ import visaLogo from "assets/images/logos/visa.png";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
+import { useEffect } from "react";
+import { FlushCanteenCoinsByPayment } from "api/api";
+import { toast } from "react-toastify";
+import { FlushStationeryCoinsByPayment } from "api/api";
 
 function PaymentMethod() {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
+
+  const handleFlushCanteenCoins = async () => {
+    console.log("PaymentMethod");
+    const result = await FlushCanteenCoinsByPayment();
+    if (result.status === 200) {
+      console.log("PaymentMethod", result);
+      toast.success("Paid to Canteen successfully.");
+    }
+    else {
+      console.log("PaymentMethod", result);
+      toast.warning("Oops! Something went wrong.");
+    }
+  }
+
+  const handleFlushStationeryCoins = async () => {
+    console.log("PaymentMethod");
+    const result = await FlushStationeryCoinsByPayment();
+    if (result.status === 200) {
+      console.log("PaymentMethod", result);
+      toast.success("Paid to Stationery Shop successfully.");
+    }
+    else {
+      console.log("PaymentMethod", result);
+      toast.warning("Oops! Something went wrong.");
+    }
+  }
 
   return (
     <Card id="delete-account">
@@ -28,10 +56,10 @@ function PaymentMethod() {
         <MDTypography variant="h6" fontWeight="medium">
           Payment Method
         </MDTypography>
-        <MDButton variant="gradient" color="dark">
+        {/* <MDButton variant="gradient" color="dark">
           <Icon sx={{ fontWeight: "bold" }}>add</Icon>
           &nbsp;add new card
-        </MDButton>
+        </MDButton> */}
       </MDBox>
       <MDBox p={2}>
         <Grid container spacing={3}>
@@ -49,14 +77,19 @@ function PaymentMethod() {
             >
               <MDBox component="img" src={masterCardLogo} alt="master card" width="10%" mr={2} />
               <MDTypography variant="h6" fontWeight="medium">
+                Canteen <br />
                 ****&nbsp;&nbsp;****&nbsp;&nbsp;****&nbsp;&nbsp;7852
               </MDTypography>
               <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
-                <Tooltip title="Edit Card" placement="top">
+                <MDButton variant="gradient" color="info" onClick={handleFlushCanteenCoins}>
+                  <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+                  &nbsp; Pay
+                </MDButton>
+                {/* <Tooltip title="Edit Card" placement="top">
                   <Icon sx={{ cursor: "pointer" }} fontSize="small">
                     edit
                   </Icon>
-                </Tooltip>
+                </Tooltip> */}
               </MDBox>
             </MDBox>
           </Grid>
@@ -74,14 +107,19 @@ function PaymentMethod() {
             >
               <MDBox component="img" src={visaLogo} alt="master card" width="10%" mr={2} />
               <MDTypography variant="h6" fontWeight="medium">
+                Stationery <br />
                 ****&nbsp;&nbsp;****&nbsp;&nbsp;****&nbsp;&nbsp;5248
               </MDTypography>
               <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
-                <Tooltip title="Edit Card" placement="top">
+                <MDButton variant="gradient" color="info" onClick={handleFlushStationeryCoins}>
+                  <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+                  &nbsp; Pay
+                </MDButton>
+                {/* <Tooltip title="Edit Card" placement="top">
                   <Icon sx={{ cursor: "pointer" }} fontSize="small">
                     edit
                   </Icon>
-                </Tooltip>
+                </Tooltip> */}
               </MDBox>
             </MDBox>
           </Grid>

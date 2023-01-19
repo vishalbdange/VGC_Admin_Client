@@ -22,18 +22,18 @@ import { GetPayeeBalances } from "api/api";
 
 function Billing() {
 
-  const [canteenBalance, setCanteenBalance] = useState(1000);
+  const [canteenBalance, setCanteenBalance] = useState(1021);
   const [stationeryBalance, setStationeryBalance] = useState(1000);
 
-  useEffect(async () => {
-    const result = await GetPayeeBalances();
-    if (result.status === 200) {
-      setCanteenBalance(result.data.canteen);
-      setStationeryBalance(result.data.stationery);
-    } else {
-      toast.warning("Oops! Something went wrong.");
-    }
-  }, []);
+  // useEffect(async () => {
+  //   const result = await GetPayeeBalances();
+  //   if (result.status === 200) {
+  //     setCanteenBalance(result.data.canteen);
+  //     setStationeryBalance(result.data.stationery);
+  //   } else {
+  //     toast.warning("Oops! Something went wrong.");
+  //   }
+  // }, []);
 
 
   return (
@@ -45,22 +45,24 @@ function Billing() {
             <Grid item xs={12} lg={8}>
               <Grid container spacing={3}>
                 <Grid item xs={12} xl={6}>
-                  <MasterCard number={4562112245947852} holder="jack peterson" expires="11/22" />
+                  <MasterCard number={4562112245947852} holder="Abhay Ubhale" expires="11/25" />
                 </Grid>
                 <Grid item xs={12} md={6} xl={3}>
                   <DefaultInfoCard
                     icon="account_balance"
-                    title="salary"
-                    description="Belong Interactive"
+                    title="Canteen"
+                    description="Coins used for Food"
                     value={"₹" + canteenBalance}
+                    color="primary"
                   />
                 </Grid>
                 <Grid item xs={12} md={6} xl={3}>
                   <DefaultInfoCard
-                    icon="stationery"
+                    icon="paypal"
                     title="Stationery"
                     description="Mechanical Building"
                     value={"₹" + stationeryBalance}
+                    color="primary"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -75,12 +77,12 @@ function Billing() {
         </MDBox>
         <MDBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={12}>
               <BillingInformation />
             </Grid>
-            <Grid item xs={12} md={5}>
+            {/* <Grid item xs={12} md={5}>
               <Transactions />
-            </Grid>
+            </Grid> */}
           </Grid>
         </MDBox>
       </MDBox>

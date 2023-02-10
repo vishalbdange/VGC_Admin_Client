@@ -24,7 +24,6 @@ export const RejectApplicationByStudentId = (data) => API.post(baseURL + "/updat
 
 export const FlushCanteenCoinsByPayment = () => API.get(baseURL + "/flushcanteen");
 
-
 export const FlushStationeryCoinsByPayment = () => API.get(baseURL + "/flushstationery");
 // export const GetPayeeBalances = () => API.get(baseURL + "/getpayeebalances");
 

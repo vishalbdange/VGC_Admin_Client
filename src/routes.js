@@ -6,8 +6,11 @@ import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/login";
+import CommiteeReg from "layouts/committee-auth/sign-up/index.js";
+import CommiteeLogin from "layouts/committee-auth/login/index.js";
+import CommitteeDashboard from "layouts/dashboard copy/index.js";
 
-// @mui icons
+// @mui icons/
 import Icon from "@mui/material/Icon";
 import GetStudentApplications from "layouts/getStudentApplications";
 import SetNewAdvertiseMent from "layouts/setAdvertisements";
@@ -103,6 +106,33 @@ const routes = [
     component: <SignIn />,
     toShow: false,
   },
+  {
+    type: "collapse",
+    name: "Commitee Register",
+    key: "sign-up",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/committee-auth/register",
+    component: <CommiteeReg />,
+    toShow: false,
+  },
+  {
+    type: "collapse",
+    name: "Commitee Login",
+    key: "sign-in",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/committee-auth/login",
+    component: <CommiteeLogin />,
+    toShow: false,
+  },
+  {
+    type: "collapse",
+    name: "Commitee Dashboard",
+    key: "committe-dashboard",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/committee-dashboard",
+    component: <CommitteeDashboard />,
+    toShow: false,
+  }
 ];
 
 export default routes;

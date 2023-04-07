@@ -23,6 +23,7 @@ import themeDark from "assets/theme-dark";
 
 // Material Dashboard 2 React routes
 import routes from "routes";
+import committee_routes from "committee_routes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -135,9 +136,24 @@ export default function App() {
           {configsButton}
         </>
       )}
+       {layout === "committee-dashboard" && (
+        <>
+          <Sidenav
+            color={sidenavColor}
+            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+            brandName="VJTI Governance Coin"
+            routes={committee_routes}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+          />
+          <Configurator />
+          {configsButton}
+        </>
+      )}
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
+        {getRoutes(committee_routes)}
         <Route path="*" element={<Navigate to="/authentication/login" />} />
       </Routes>
     </ThemeProvider>

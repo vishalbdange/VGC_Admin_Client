@@ -19,16 +19,30 @@ import { Divider, Icon } from "@mui/material";
 function EventsCardGrid() {
 
     const [allEvents, setAllEvents] = useState([]);
+    var my_committee_email = JSON.parse(localStorage.getItem("committee")).committee_email;
 
     useEffect(async () => {
         const fetchEvents = await GetAllEventDetails();
-        setAllEvents(fetchEvents.data.allevents);
+
+        console.log(fetchEvents)
+        var my_events = [];
+        fetchEvents.data.allevents.forEach(function (r) {
+            console.log(r.eventCommittee)
+            
+            console.log(my_committee_email)
+            if(r.eventCommittee == my_committee_email){
+                my_events.push(r);
+            }
+        });
+        console.log(my_events)
+
+        setAllEvents(my_events);
     }, []);
 
     return (
         <MDBox mt={4.5}>
             <MDTypography mb={8} variant="h4" fontWeight="medium" textTransform="capitalize">
-                All Events
+                All Events  
             </MDTypography>
             <Grid container spacing={3}>
                 {allEvents.map((event, index) => (
@@ -77,8 +91,9 @@ function EventsCardGrid() {
                                             {event.eventDescription.substring(0, 150) + "..."}
                                         </MDTypography>
                                     </MDBox>
+                                    
 
-                                    <MDBox display="flex" alignItems="center">
+                                    <MDBox  mb={2} display="flex" alignItems="center">
                                         <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
                                             <Icon fontSize="medium" color="dark">place</Icon>
                                         </MDTypography>
@@ -109,7 +124,14 @@ function EventsCardGrid() {
                                             {event.eventStartTime} to {event.eventEndTime}
                                         </MDTypography>
                                     </MDBox>
-
+                                    <MDBox mt={2} mb={2} display="flex" alignItems="center">
+                                        <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+                                                <Icon fontSize="medium" color="primary">square</Icon>
+                                        </MDTypography>
+                                        <MDTypography variant="button" color="warning" fontWeight="light">
+                                            Status - <strong>{event.eventStatus}</strong>
+                                        </MDTypography>
+                                    </MDBox>
                                     {/* <MDBox display="flex" alignItems="center">
 
                                     </MDBox> */}

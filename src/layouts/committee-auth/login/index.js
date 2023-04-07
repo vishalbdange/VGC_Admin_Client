@@ -48,27 +48,35 @@ function Basic() {
     setSignInData({ ...signInData, [target.name]: target.value })
     console.log(signInData)
   }
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
+    if(signInData.committee_email== '' || signInData.committee_password == '' ) {
+      toast.info("All fields are compulsory !")
+    }
     try{
-      axios({
+      const result = await axios({
         method: 'post',
-        url: 'https://vgc-server.onrender.com/committee/login',
+        url: 'http://localhost:3000/committee/login',
         data: signInData, // you are sending body instead
         headers: {
         'Content-Type': 'application/json'
         }, 
       })
-     
-      if(signInData.committee_email== '' || signInData.committee_password == '' ) {
-        toast.info("All fields are compulsory !")
-      }
-      // navigate("/committee-dashboard")
-     
+      console.log(result)
+     if(result.status == 200){
+        toast.info("Logging in...")
+        localStorage.setItem("committee",JSON.stringify(signInData))
+        navigate("/committee-dashboard")  
+     }else{
+  
+        toast.info(result.message)
+     }
+      
+        
     }catch(e){
       console.log(e)
       toast.info("Invalid Credentials , Kindly Login Again")
     }
-    alert("login suceess")
+   
    
   }
 

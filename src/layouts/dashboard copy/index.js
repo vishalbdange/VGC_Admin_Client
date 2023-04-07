@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -7,7 +8,7 @@ import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import Committee_DashboardLayout from "examples/LayoutContainers/Committee_DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
@@ -22,34 +23,47 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import EventsCardGrid from "./components/EventCardsGrid";
+import GetCommitteeAdvertisements from "layouts/getCommitteeAdvertisements";
 import { GetCoinSupplyRedeemedAmount } from "api/api";
 import { toast } from "react-toastify";
 
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  const navigate = useNavigate();
 
   const [totalSupply, setTotalSupply] = useState(0);
   const [totalRedeem, setTotalRedeem] = useState(0);
 
-
-  useEffect(async () => {
-    const result = await GetCoinSupplyRedeemedAmount();
-
-    if (result.status === 200) {
-      console.log("Success");
-      setTotalSupply(result.data.supply.value);
-      setTotalRedeem(result.data.redeemed.value);
-    } else {
-      console.log("Error");
-      toast.warning("Oops! Something went wrong.");
+  useEffect( async()=>{
+    console.log(localStorage.getItem("committee"))
+    if(localStorage.getItem("committee") === null){
+      toast.message("Kindly login to conitnue");
+      navigate("/committee-auth/login")
     }
-  }, []);
+    setInterval(()=>{
+        localStorage.removeItem("committee")
+        navigate("/committee-auth/login")
+    },14400000)
+  },[])
+
+    // useEffect(async () => {
+  //   const result = await GetCoinSupplyRedeemedAmount();
+
+  //   if (result.status === 200) {
+  //     console.log("Success");
+  //     setTotalSupply(result.data.supply.value);
+  //     setTotalRedeem(result.data.redeemed.value);
+  //   } else {
+  //     console.log("Error");
+  //     toast.warning("Oops! Something went wrong.");
+  //   }
+  // }, []);
 
   return (
-    <DashboardLayout>
+    <Committee_DashboardLayout>
       <DashboardNavbar />
-      <MDBox py={3}>
+      {/* <MDBox py={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={4}>
             <MDBox mb={1.5}>
@@ -112,9 +126,9 @@ function Dashboard() {
             </MDBox>
           </Grid> */}
 
-        </Grid>
+        {/* </Grid> */}
 
-        <MDBox mt={4.5}>
+        {/* <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
@@ -155,10 +169,11 @@ function Dashboard() {
               </MDBox>
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
 
         <EventsCardGrid />
 
+        {/* <GetCommitteeAdvertisements /> */}
         {/* <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
@@ -170,9 +185,9 @@ function Dashboard() {
           </Grid>
         </MDBox> */}
 
-      </MDBox>
+      {/* </MDBox>  */}
       <Footer />
-    </DashboardLayout>
+    </Committee_DashboardLayout>
   );
 }
 

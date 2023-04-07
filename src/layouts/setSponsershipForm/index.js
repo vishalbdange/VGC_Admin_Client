@@ -1,7 +1,7 @@
 import { useState } from "react";
 // import fs from 'fs'
 // Material Dashboard 2 React examples
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import Committee_DashboardLayout from "examples/LayoutContainers/Committee_DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // @mui material components
@@ -15,17 +15,18 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { UploadNewAdvertisement } from "api/api";
+import { submitSponsershipForm } from "api/api";
 
-function SetNewAdvertiseMent() {
+function SetSponsershipForm() {
     const navigate = useNavigate();
+    const comm_email  = (JSON.parse(localStorage.getItem("committee"))).committee_email
+
     const [adData, setAdData] = useState({
-        advertisementName: '',
-        advertisementDescription: '',
-        advertisementAmount: null,
-        file: '',
-        advertisementStatus:"Accepted",
-        advertisement_committee_email : ""
+        sponserName: '',
+        sponserDescription: '',
+        sponserAmount: 0,
+        sponsershipStatus:"Pending",
+        sponser_committee_email : comm_email
     });
 
     const handleChange = (target) => {
@@ -49,20 +50,20 @@ function SetNewAdvertiseMent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.info("Advertisement data submitted", adData);
+        console.info("Sponsership data submitted", adData);
 
-        const result = await UploadNewAdvertisement(adData);
+        const result = await submitSponsershipForm(adData);
 
         if (result.status == 200) {
-            toast.info("Advertisement data submitted successfully");
-            navigate("/dashboard", { replace: true });
+            toast.info("Sponsership data submitted successfully");
+            navigate("/committee-dashboard", { replace: true });
         } else {
             toast.warning("Something went wrong");
         }
     }
 
     return (
-        <DashboardLayout>
+        <Committee_DashboardLayout>
             <DashboardNavbar />
             <MDBox mt={6} mb={3}>
                 <Grid container spacing={3} justifyContent="center">
@@ -70,19 +71,16 @@ function SetNewAdvertiseMent() {
                         <Card>
                             <form onSubmit={handleSubmit} >
                                 <MDBox p={2}>
-                                    <MDTypography variant="h5">Add new Advertisement from an Investor</MDTypography>
+                                    <MDTypography variant="h5">Sponsership form</MDTypography>
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="advertisementName" label="Investor Name" type="text" value={adData.advertisementName} onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="sponserName" label="Sponser Name" type="text" value={adData.sponserName} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="advertisementDescription" label="Advertisement Description" value={adData.advertisementDescription} type="text" multiline rows={5} onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="sponserDescription" label="Sponser Description" value={adData.sponserDescription} type="text" multiline rows={5} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="advertisementAmount" label="Amount" type="number" value={adData.advertisementAmount} onChange={(e) => handleChange(e.target)} />
-                                </MDBox>
-                                <MDBox p={2}>
-                                    <MDInput required fullWidth type="file" name="file" label="Poster/Banner Image" onChange={(e) => handleChange(e.target)} />
+                                    <MDInput required fullWidth name="sponserAmount" label="Amount" type="number" value={adData.sponserAmount} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
 
                                 <MDBox p={5} display="flex" justifyContent="center" alignItems="center">
@@ -95,8 +93,8 @@ function SetNewAdvertiseMent() {
                     </Grid>
                 </Grid>
             </MDBox>
-        </DashboardLayout>
+        </Committee_DashboardLayout>
     )
 
 }
-export default SetNewAdvertiseMent;
+export default SetSponsershipForm;

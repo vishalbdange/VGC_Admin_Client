@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import fs from 'fs'
 // Material Dashboard 2 React examples
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import CommitteeDashboardLayout from "examples/LayoutContainers/Committee_DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // @mui material components
@@ -17,8 +17,9 @@ import { toast } from "react-toastify";
 import { AddNewEventDataToDatabase } from "api/api";
 import { useNavigate } from "react-router-dom";
 
-function AddNewEvent() {
+function CommitteeAddNewEvent() {
     const navigate = useNavigate();
+    const comm_email  = (JSON.parse(localStorage.getItem("committee"))).committee_email
     const [eventData, setEventData] = useState({
         eventName: '',
         eventDescription: '',
@@ -26,9 +27,9 @@ function AddNewEvent() {
         eventDate: '',
         eventStartTime: '',
         eventEndTime: '',
-        eventCommittee: '',
-        eventStatus:"Accepted",
+        eventCommittee: comm_email,
         eventContact: '',
+        eventStatus:"Pending",
         file: ''
     });
 
@@ -47,26 +48,38 @@ function AddNewEvent() {
                 return
             }
         }
+
         setEventData({ ...eventData, [target.name]: target.name == "file" ? target.files[0] : target.value.toString() })
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.info("Event data submitted", eventData);
-
+        
+        console.info("Committee Event data submitting", eventData);
         const result = await AddNewEventDataToDatabase(eventData);
-
+        
         if (result.status == 200) {
-            toast.info("Event data submitted successfully");
-            navigate("/dashboard", { replace: true });
+            toast.info("Committee Event data submitted successfully");
+            console.log(eventData)
+            navigate("/committee-dashboard", { replace: true });
         } else {
+            console.log(result)
             toast.warning("Something went wrong");
         }
+        // navigate("/committee-dashboard", { replace: true });
     }
+    // useEffect(()=>{
+    //     var committeedata = localStorage.getItem("committee") ;
+    //     if(committeedata == undefined || committeedata == null) {
+    //         toast.message("Kindly login again");
+    //         navigate("/committee-auth/login");
+    //     }else{
+            
+    //     }
+    // },[])
 
     return (
-        <DashboardLayout>
+        <CommitteeDashboardLayout>
             <DashboardNavbar />
             <MDBox mt={6} mb={3}>
                 <Grid container spacing={3} justifyContent="center">
@@ -82,9 +95,9 @@ function AddNewEvent() {
                                 <MDBox p={2}>
                                     <MDInput required fullWidth name="eventDescription" label="Event Description" value={eventData.eventDescription} type="text" multiline rows={5} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
-                                <MDBox p={2}>
-                                    <MDInput required fullWidth name="eventCommittee" label="Committee" type="text" value={eventData.eventCommittee} onChange={(e) => handleChange(e.target)} />
-                                </MDBox>
+                                {/* <MDBox p={2}>
+                                    <MDInput required fullWidth name="eventCommittee" label="Committee Email" type="text" value={eventData.eventCommittee} onChange={(e) => handleChange(e.target)} />
+                                </MDBox> */}
                                 <MDBox p={2}>
                                     <MDInput required fullWidth name="eventVenue" label="Venue" type="text" value={eventData.eventVenue} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
@@ -115,8 +128,8 @@ function AddNewEvent() {
                     </Grid>
                 </Grid>
             </MDBox>
-        </DashboardLayout>
+        </CommitteeDashboardLayout>
     )
 
 }
-export default AddNewEvent;
+export default CommitteeAddNewEvent;

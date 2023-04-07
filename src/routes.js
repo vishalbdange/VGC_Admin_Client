@@ -14,6 +14,9 @@ import CommitteeDashboard from "layouts/dashboard copy/index.js";
 import Icon from "@mui/material/Icon";
 import GetStudentApplications from "layouts/getStudentApplications";
 import SetNewAdvertiseMent from "layouts/setAdvertisements";
+import GetAdminAdvertisements from "layouts/getAdminAdvertisements";
+import GetAdminSponsershipForms from "layouts/getAdminSponsershipForms";
+
 
 const routes = [
   {
@@ -50,6 +53,25 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/add-advertisement",
     component: <SetNewAdvertiseMent />,
+    toShow: true,
+  },
+  
+  {
+    type: "collapse",
+    name: "All Advertisements",
+    key: "all-advertise",
+    icon: <Icon fontSize="small">event</Icon>,
+    route: "/admin-all-advertisements",
+    component: <GetAdminAdvertisements />,
+    toShow: true,
+  },
+  {
+    type: "collapse",
+    name: "All Sponsership Forms",
+    key: "all-sponserships",
+    icon: <Icon fontSize="small">event</Icon>,
+    route: "/admin-all-sponserships",
+    component: <GetAdminSponsershipForms />,
     toShow: true,
   },
   // {
@@ -104,33 +126,6 @@ const routes = [
     icon: <Icon fontSize="small">assignment</Icon>,
     route: "/authentication/login",
     component: <SignIn />,
-    toShow: false,
-  },
-  {
-    type: "collapse",
-    name: "Commitee Register",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/committee-auth/register",
-    component: <CommiteeReg />,
-    toShow: false,
-  },
-  {
-    type: "collapse",
-    name: "Commitee Login",
-    key: "sign-in",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/committee-auth/login",
-    component: <CommiteeLogin />,
-    toShow: false,
-  },
-  {
-    type: "collapse",
-    name: "Commitee Dashboard",
-    key: "committe-dashboard",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/committee-dashboard",
-    component: <CommitteeDashboard />,
     toShow: false,
   }
 ];

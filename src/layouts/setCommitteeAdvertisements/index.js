@@ -1,7 +1,7 @@
 import { useState } from "react";
 // import fs from 'fs'
 // Material Dashboard 2 React examples
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import CommitteeDashboardLayout from "examples/LayoutContainers/Committee_DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // @mui material components
@@ -15,17 +15,18 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { UploadNewAdvertisement } from "api/api";
+import { UploadNewCommitteeAdvertisement } from "api/api";
 
-function SetNewAdvertiseMent() {
+function SetNewCommitteeAdvertiseMent() {
     const navigate = useNavigate();
+    const comm_email  = (JSON.parse(localStorage.getItem("committee"))).committee_email
     const [adData, setAdData] = useState({
         advertisementName: '',
         advertisementDescription: '',
         advertisementAmount: null,
-        file: '',
-        advertisementStatus:"Accepted",
-        advertisement_committee_email : ""
+        advertisement_committee_email : comm_email, 
+        advertisementStatus:"Pending",
+        file: ''
     });
 
     const handleChange = (target) => {
@@ -51,18 +52,18 @@ function SetNewAdvertiseMent() {
 
         console.info("Advertisement data submitted", adData);
 
-        const result = await UploadNewAdvertisement(adData);
+        const result = await UploadNewCommitteeAdvertisement(adData);
 
         if (result.status == 200) {
             toast.info("Advertisement data submitted successfully");
-            navigate("/dashboard", { replace: true });
+            navigate("/committee-dashboard", { replace: true });
         } else {
             toast.warning("Something went wrong");
         }
     }
 
     return (
-        <DashboardLayout>
+        <CommitteeDashboardLayout>
             <DashboardNavbar />
             <MDBox mt={6} mb={3}>
                 <Grid container spacing={3} justifyContent="center">
@@ -79,9 +80,6 @@ function SetNewAdvertiseMent() {
                                     <MDInput required fullWidth name="advertisementDescription" label="Advertisement Description" value={adData.advertisementDescription} type="text" multiline rows={5} onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
                                 <MDBox p={2}>
-                                    <MDInput required fullWidth name="advertisementAmount" label="Amount" type="number" value={adData.advertisementAmount} onChange={(e) => handleChange(e.target)} />
-                                </MDBox>
-                                <MDBox p={2}>
                                     <MDInput required fullWidth type="file" name="file" label="Poster/Banner Image" onChange={(e) => handleChange(e.target)} />
                                 </MDBox>
 
@@ -95,8 +93,8 @@ function SetNewAdvertiseMent() {
                     </Grid>
                 </Grid>
             </MDBox>
-        </DashboardLayout>
+        </CommitteeDashboardLayout>
     )
 
 }
-export default SetNewAdvertiseMent;
+export default SetNewCommitteeAdvertiseMent;
